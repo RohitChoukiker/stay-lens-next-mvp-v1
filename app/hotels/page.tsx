@@ -76,7 +76,7 @@ function HotelsListContent() {
           } catch (e) {
             // Fallback: try to extract JSON array with regex
             try {
-              const match = content.match(/\[.*\]/s);
+              const match = content.match(/\[([\s\S]*?)\]/);
               if (match) {
                 const hotels = JSON.parse(match[0]);
                 setClaudeHotels(hotels);

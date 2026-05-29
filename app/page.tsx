@@ -100,7 +100,7 @@ export default function HomePage() {
               <Link key={h.id} href={`/hotels/${h.id}`} className="group block">
                 <div className="overflow-hidden rounded-2xl mb-5 aspect-[4/5] bg-muted ring-1 ring-black/5">
                   <img
-                    src={h.image}
+                    src={h.images[0]}
                     alt={h.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />

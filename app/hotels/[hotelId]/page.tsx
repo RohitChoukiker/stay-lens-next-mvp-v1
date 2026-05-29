@@ -111,67 +111,73 @@ function HotelDetail({ hotel }: { hotel: Hotel }) {
           </div>
 
           {/* Rooms */}
-          <div>
-            <h3 className="text-[10px] uppercase tracking-widest text-foreground/40 mb-4">
-              Room types
-            </h3>
-            <div className="space-y-3">
-              {hotel.rooms.map((r) => (
-                <div
-                  key={r.name}
-                  className="flex justify-between items-start p-5 border border-border rounded-2xl"
-                >
-                  <div>
-                    <div className="font-semibold">{r.name}</div>
-                    <div className="text-sm text-foreground/60 mt-1">
-                      {r.description}
+          {Array.isArray(hotel.rooms) && hotel.rooms.length > 0 && (
+            <div>
+              <h3 className="text-[10px] uppercase tracking-widest text-foreground/40 mb-4">
+                Room types
+              </h3>
+              <div className="space-y-3">
+                {hotel.rooms.map((r) => (
+                  <div
+                    key={r.name}
+                    className="flex justify-between items-start p-5 border border-border rounded-2xl"
+                  >
+                    <div>
+                      <div className="font-semibold">{r.name}</div>
+                      <div className="text-sm text-foreground/60 mt-1">
+                        {r.description}
+                      </div>
+                    </div>
+                    <div className="text-right shrink-0 ml-4">
+                      <div className="font-bold">
+                        ₹{r.price.toLocaleString("en-IN")}
+                      </div>
+                      <div className="text-[10px] text-foreground/40 uppercase tracking-widest">
+                        per night
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right shrink-0 ml-4">
-                    <div className="font-bold">
-                      ₹{r.price.toLocaleString("en-IN")}
-                    </div>
-                    <div className="text-[10px] text-foreground/40 uppercase tracking-widest">
-                      per night
-                    </div>
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Map */}
-          <div>
-            <h3 className="text-[10px] uppercase tracking-widest text-foreground/40 mb-4">
-              Location
-            </h3>
-            <div className="h-80 rounded-2xl overflow-hidden border border-border">
-              <LeafletMap lat={hotel.lat} lng={hotel.lng} label={hotel.name} />
+          {typeof hotel.lat === "number" && typeof hotel.lng === "number" && (
+            <div>
+              <h3 className="text-[10px] uppercase tracking-widest text-foreground/40 mb-4">
+                Location
+              </h3>
+              <div className="h-80 rounded-2xl overflow-hidden border border-border">
+                <LeafletMap lat={hotel.lat} lng={hotel.lng} label={hotel.name} />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Nearby attractions */}
-          <div>
-            <h3 className="text-[10px] uppercase tracking-widest text-foreground/40 mb-4">
-              Nearby attractions
-            </h3>
-            <ul className="divide-y divide-border border-y border-border">
-              {hotel.attractions.map((a) => (
-                <li
-                  key={a.name}
-                  className="py-4 flex justify-between items-center"
-                >
-                  <div>
-                    <div className="font-medium">{a.name}</div>
-                    <div className="text-xs text-foreground/50">{a.type}</div>
-                  </div>
-                  <div className="text-sm text-foreground/60">
-                    {a.distanceKm} km
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {Array.isArray(hotel.attractions) && hotel.attractions.length > 0 && (
+            <div>
+              <h3 className="text-[10px] uppercase tracking-widest text-foreground/40 mb-4">
+                Nearby attractions
+              </h3>
+              <ul className="divide-y divide-border border-y border-border">
+                {hotel.attractions.map((a) => (
+                  <li
+                    key={a.name}
+                    className="py-4 flex justify-between items-center"
+                  >
+                    <div>
+                      <div className="font-medium">{a.name}</div>
+                      <div className="text-xs text-foreground/50">{a.type}</div>
+                    </div>
+                    <div className="text-sm text-foreground/60">
+                      {a.distanceKm} km
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Review summary */}
           <div>
@@ -249,7 +255,9 @@ function HotelDetail({ hotel }: { hotel: Hotel }) {
             </p>
           </div>
 
-          <WeatherWidget lat={hotel.lat} lng={hotel.lng} />
+          {typeof hotel.lat === "number" && typeof hotel.lng === "number" && (
+            <WeatherWidget lat={hotel.lat} lng={hotel.lng} />
+          )}
         </aside>
       </section>
 

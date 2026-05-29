@@ -142,7 +142,7 @@ function HotelsListContent() {
               >
                 <div className="aspect-[5/4] bg-muted overflow-hidden">
                   <img
-                    src={h.images?.[0] || "/images/placeholder.jpg"}
+                    src={Array.isArray(h.images) && h.images.length > 0 && h.images[0] ? h.images[0] : "/images/placeholder.jpg"}
                     alt={h.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   />

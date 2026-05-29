@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-// This API receives onboarding answers and returns the top 5 hotels (Claude-powered)
+
 export async function POST(req: NextRequest) {
   const body = await req.json();
   const onboardingAnswers = body.answers;
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       messages: [
         {
           role: "user",
-          content: `Given these onboarding answers as JSON: ${JSON.stringify(onboardingAnswers)}\nReturn a JSON array of the top 5 best-matching hotels for this user. Each hotel should have: id, name, city, state, vibe, stars, amenities, reviewCount, rating, tagline, images (array), pricePerNight. Only return the array, no explanation.`
+          content: `Given these onboarding answers as JSON: ${JSON.stringify(onboardingAnswers)}\nReturn a JSON array of the top 5 best-matching hotels for this user. Each hotel object must include: id, name, city, state, vibe, stars, amenities, reviewCount, rating, tagline, images (array), pricePerNight. For the images array, always provide at least one valid image URL as a string. If no real image is available, use "/images/placeholder.jpg" as the default. Only return the JSON array, no explanation or extra text.`
         }
       ]
     }),

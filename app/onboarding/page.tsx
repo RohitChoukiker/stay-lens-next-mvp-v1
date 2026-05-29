@@ -1,4 +1,7 @@
+
 "use client";
+
+import { SiteNav } from "@/components/SiteNav";
 
 import { useEffect, useState, useRef } from "react";
 import { useRouter } from "next/navigation";
@@ -207,6 +210,7 @@ const LAYER_COLORS: Record<number, string> = {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function OnboardingPage() {
+  // Add SiteNav at the top
   const { user, loading } = useAuth();
   const router = useRouter();
 
@@ -302,7 +306,7 @@ export default function OnboardingPage() {
 
   if (loadingQ || !q) {
     return (
-      <div className="min-h-screen bg-muted/50 grid place-items-center px-6 py-12">
+      <div className="h-full bg-muted/50 grid place-items-center px-6 py-12">
         <div className="w-full max-w-2xl">
           <div className="bg-card rounded-3xl shadow-[var(--shadow-luxe)] p-8 sm:p-12 md:p-16 relative overflow-hidden">
             <div
@@ -353,9 +357,11 @@ export default function OnboardingPage() {
   // ── Main render ───────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-screen bg-muted/50 grid place-items-center px-6 py-12">
-      <div className="w-full max-w-2xl">
-        <div className="bg-card rounded-3xl shadow-[var(--shadow-luxe)] p-8 sm:p-12 md:p-16 relative overflow-hidden">
+    <>
+      <SiteNav hideHotels hideProfile />
+      <div className="min-h-screen bg-muted/50 grid place-items-center px-6 py-12">
+        <div className="w-full">
+        <div className="bg-card rounded-3xl shadow-[var(--shadow-luxe)] p-8 sm:p-12 md:p-16 relative overflow-hidden w-full">
 
           {/* Progress bar */}
           <div
@@ -469,191 +475,15 @@ export default function OnboardingPage() {
           </div>
 
         </div>
+        </div>
+        <style>{`
+          @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-4px); opacity: 1; }
+          }
+        `}</style>
       </div>
-
-      <style>{`
-        @keyframes bounce {
-          0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-          30% { transform: translateY(-4px); opacity: 1; }
-        }
-      `}</style>
-    </div>
+    </>
   );
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// "use client";
-
-// import { useEffect, useState } from "react";
-// import { useRouter } from "next/navigation";
-// import { toast } from "sonner";
-// import { useAuth } from "@/hooks/useAuth";
-// import { ONBOARDING_QUESTIONS } from "@/lib/onboarding";
-
-// export default function OnboardingPage() {
-//   const { user, loading } = useAuth();
-//   const router = useRouter();
-//   const [step, setStep] = useState(0);
-//   const [answers, setAnswers] = useState<Record<string, any>>({});
-//   const [saving, setSaving] = useState(false);
-
-//   useEffect(() => {
-//     if (!loading && !user) router.push("/login");
-//   }, [loading, user, router]);
-
-//   if (loading || !user) {
-//     return (
-//       <div className="min-h-screen grid place-items-center text-foreground/40">
-//         Loading…
-//       </div>
-//     );
-//   }
-
-//   const total = ONBOARDING_QUESTIONS.length;
-//   const q = ONBOARDING_QUESTIONS[step];
-//   const isLast = step === total - 1;
-//   const progress = ((step + 1) / total) * 100;
-//   const currentValue = answers[q.key];
-
-//   const setAnswer = (val: any) =>
-//     setAnswers((a) => ({ ...a, [q.key]: val }));
-
-//   const toggleMulti = (val: string) => {
-//     const arr: string[] = currentValue ?? [];
-//     setAnswer(
-//       arr.includes(val) ? arr.filter((v) => v !== val) : [...arr, val]
-//     );
-//   };
-
-//   const finish = async (skipRest = false) => {
-//     setSaving(true);
-//     try {
-//       localStorage.setItem("onboarding_completed", "true");
-//       toast.success(
-//         skipRest ? "Saved. You can update these anytime." : "Preferences saved!"
-//       );
-//     } catch (err: any) {
-//       console.error(err);
-//       toast.error("Could not save, but continuing...");
-//     } finally {
-//       setSaving(false);
-//       router.push("/hotels");
-//     }
-//   };
-
-//   const next = () => {
-//     if (isLast) finish();
-//     else setStep((s) => s + 1);
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-muted/50 grid place-items-center px-6 py-12">
-//       <div className="w-full max-w-2xl">
-//         <div className="bg-card rounded-3xl shadow-[var(--shadow-luxe)] p-8 sm:p-12 md:p-16 relative overflow-hidden">
-//           {/* Progress bar */}
-//           <div
-//             className="absolute top-0 left-0 h-1.5 bg-accent transition-all duration-500"
-//             style={{ width: `${progress}%` }}
-//           />
-
-//           <div className="flex justify-between items-center mb-10">
-//             <span className="text-[10px] font-bold tracking-widest uppercase text-foreground/40">
-//               Question {step + 1} of {total}
-//             </span>
-//             <button
-//               onClick={() => finish(true)}
-//               disabled={saving}
-//               className="text-[10px] font-bold tracking-widests uppercase text-accent hover:underline disabled:opacity-50"
-//             >
-//               Skip all
-//             </button>
-//           </div>
-
-//           <h2 className="font-serif text-3xl md:text-4xl mb-3">{q.title}</h2>
-//           <p className="text-foreground/60 mb-10">{q.helper}</p>
-
-//           <div
-//             className={`grid gap-3 ${
-//               q.options.length > 4
-//                 ? "sm:grid-cols-2"
-//                 : q.multi
-//                 ? "sm:grid-cols-2"
-//                 : "grid-cols-1"
-//             }`}
-//           >
-//             {q.options.map((opt) => {
-//               const selected = q.multi
-//                 ? (currentValue ?? []).includes(opt.value)
-//                 : currentValue === opt.value;
-//               return (
-//                 <button
-//                   key={opt.value}
-//                   onClick={() =>
-//                     q.multi ? toggleMulti(opt.value) : setAnswer(opt.value)
-//                   }
-//                   className={`text-left p-5 rounded-2xl border-2 transition-all ${
-//                     selected
-//                       ? "border-accent bg-accent/5"
-//                       : "border-border hover:border-foreground/30"
-//                   }`}
-//                 >
-//                   <div className="font-semibold">{opt.label}</div>
-//                   {opt.description && (
-//                     <div className="text-sm text-foreground/55 mt-1">
-//                       {opt.description}
-//                     </div>
-//                   )}
-//                 </button>
-//               );
-//             })}
-//           </div>
-
-//           <div className="mt-10 flex justify-between items-center">
-//             <button
-//               onClick={() =>
-//                 step === 0 ? router.push("/") : setStep((s) => s - 1)
-//               }
-//               className="text-foreground/50 font-medium px-2 hover:text-foreground transition-colors"
-//             >
-//               {step === 0 ? "Cancel" : "Back"}
-//             </button>
-
-//             <div className="flex items-center gap-3">
-//               <button
-//                 onClick={() =>
-//                   isLast ? finish() : setStep((s) => s + 1)
-//                 }
-//                 className="text-sm text-foreground/50 hover:text-foreground transition-colors"
-//               >
-//                 Skip this
-//               </button>
-//               <button
-//                 onClick={next}
-//                 disabled={saving}
-//                 className="rounded-full bg-foreground text-background px-8 py-3.5 font-semibold hover:bg-foreground/90 transition-colors disabled:opacity-50"
-//               >
-//                 {saving ? "Saving…" : isLast ? "Finish" : "Next"}
-//               </button>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

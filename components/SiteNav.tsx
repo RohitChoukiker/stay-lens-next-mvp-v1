@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/useAuth";
 
-export function SiteNav() {
+export function SiteNav({ hideHotels = false, hideProfile = false } = {}) {
   const { user, signOut } = useAuth();
   const router = useRouter();
 
@@ -24,22 +24,26 @@ export function SiteNav() {
         </Link>
 
         <div className="flex items-center gap-2 md:gap-6 text-sm font-medium">
-          <Link
-            href="/hotels"
-            className="hidden md:inline text-foreground/80 hover:text-accent transition-colors"
-          >
-            Hotels
-          </Link>
+          {!hideHotels && (
+            <Link
+              href="/hotels"
+              className="hidden md:inline text-foreground/80 hover:text-accent transition-colors"
+            >
+              Hotels
+            </Link>
+          )}
 
           <div className="flex items-center gap-2 md:gap-3 md:border-l md:pl-6 md:border-border">
             {user ? (
               <>
-                <Link
-                  href="/profile"
-                  className="rounded-full px-4 py-2 hover:bg-muted transition-colors"
-                >
-                  Profile
-                </Link>
+                {!hideProfile && (
+                  <Link
+                    href="/profile"
+                    className="rounded-full px-4 py-2 hover:bg-muted transition-colors"
+                  >
+                    Profile
+                  </Link>
+                )}
                 <button
                   onClick={handleSignOut}
                   className="rounded-full bg-foreground text-background px-5 py-2 hover:bg-foreground/90 transition-colors"

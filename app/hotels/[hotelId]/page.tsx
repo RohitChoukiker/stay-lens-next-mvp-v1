@@ -221,7 +221,7 @@ function HotelDetail({ hotel }: { hotel: Hotel }) {
 
         {/* Right Sidebar */}
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-          <div className="p-6 bg-card border border-border rounded-3xl shadow-[var(--shadow-luxe)]">
+          <div className="p-6 bg-card border border-border rounded-3xl shadow-(--shadow-luxe)">
             <div className="flex justify-between items-end mb-6">
               <div>
                 <div className="text-[10px] uppercase tracking-widest text-foreground/40 mb-1">

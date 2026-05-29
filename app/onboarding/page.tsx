@@ -160,7 +160,6 @@ RULES:
 - Write in a warm, conversational tone — like a knowledgeable friend
 - Options should feel like real, honest human choices — not generic labels
 - Add relevant Indian context (cities, experiences, cultural nuances)
-- emoji field: single emoji per option that visually represents the choice
 - description: one short sentence that makes the option feel vivid and real
 - 3-4 options only
 - multi: false unless the question genuinely benefits from multi-select
@@ -173,8 +172,8 @@ Respond ONLY with valid JSON, no markdown, no explanation:
   "helper": "Short warm subtitle (max 10 words)",
   "multi": false,
   "options": [
-    { "value": "value1", "label": "Display Label", "emoji": "🏖️", "description": "One vivid sentence." },
-    { "value": "value2", "label": "Display Label", "emoji": "⛰️", "description": "One vivid sentence." }
+    { "value": "value1", "label": "Display Label", "description": "One vivid sentence." },
+    { "value": "value2", "label": "Display Label", "description": "One vivid sentence." }
   ]
 }`;
 
